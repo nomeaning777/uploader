@@ -1,0 +1,36 @@
+<%# coding: UTF-8 %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="style.css" type="text/css" charset="UTF-8">
+	<title>アップロード中にエラーが発生しました</title>
+</head>
+<body><div id="main">
+	<h2>アップロード中にエラーが発生しました</h2>
+	<p> 
+<%= 
+	if errors['nofile'] then
+		'ファイルを指定してください'
+	elsif errors['ext'] then
+		'アップロード出来ないファイル形式です'
+	elsif errors['filesize'] then
+		'ファイルサイズが大きすぎます'
+	elsif errors['comment_length']
+		'コメントが長すぎます'
+	elsif errors['dl_key_length']
+		'DLパスワードが長すぎます'
+	elsif errors['edit_key_length']
+		'消去パスワードが長すぎます'
+	elsif errors['deny']
+		'投稿が禁止されています'
+	elsif errors['wave_convert']
+		'MP3ファイルへの変換に失敗しました'
+	end
+%> 
+    </p>
+	<hr>
+	<p>
+		<a href="#" onClick="history.back(); return false;">戻る</a>
+	</p>
+</div></body>

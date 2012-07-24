@@ -1,0 +1,89 @@
+<%# coding: UTF-8 %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="style.css" type="text/css" charset="UTF-8">
+	<title><%=h $TITLE %></title>
+</head>
+<body><div id="main">
+<% if $TITLE_IMAGE=='' then %>
+<h1><%=h $TITLE %></h1>
+<% else %>
+<h1><img src="title.png" alt="<%=h $TITLE %>"></h1>
+<% end %>
+<%= $MESSAGE %>
+<div id="upload">
+<form action="upload.cgi" method="post" enctype="multipart/form-data">
+	アップロードするファイル<br>
+	<input type="file" name="upload_file" size="30">
+	<% if $USE_EDIT_KEY %>
+	消去パスワード:<input type="password" name="editpass" size="8">
+	<% end %>
+	<% if $USE_DL_KEY %>
+	DLパスワード:<input type="password" name="dlpass" size="8">
+	<% end %>
+	<br>
+	コメント<br>
+	<input type="text" name="comment" size="90"><br>
+	<input type="submit" value="アップロード">
+</form>
+</div>
+<br>
+<% if $SHOW_UPLOAD_EXT && $UPLOAD_EXT!=[] then %>
+	アップロード可能拡張子
+	<% $UPLOAD_EXT.each do |up| %>
+		<%=h up %>
+	<% end %>	
+<% end %>
+
+<hr>
+<%= if page=='all' then '[ALL]' else '<a href="?page=all">[ALL]</a>' end %> <% 1.upto(pageCount) do |p| %> <%= if p==page then "[#{p}]" else "<a href=\"?page=#{p}\">[#{p}]</a>" end %> <% end %> 
+<hr>
+<table border="1" width="836px">
+	<tr class="title">
+		<th width="32px">DL</th>
+		<th width="64px">名前</th>
+		<th width="412px">コメント</th>
+		<th width="96px">容量</th>
+		<th width="164px">日時</th>
+		<th width="164px">ファイル名</th>
+	</tr>
+<%- for no in (pageStart)..(pageEnd) -%>
+	<%= if no % 2 == 0 then '<tr class="even">' else '<tr class="odd">' end %>
+		<td><%=h data[no].dl_count %></td>
+		<td><a href="file.cgi?id=<%=h data[no].id %>"><%=h data[no].id.to_s+'.'+data[no].ext %></a></td>
+		<td><%= if data[no].dl_pass != "" then '<span class="key">[Key]</span>' else "" end %><%=h data[no].comment %></td>
+		<td><%=h fileSizeToString(data[no].size) %></td>
+		<td><%=h data[no].date.strftime("%Y/%m/%d %H:%M:%S") %></td>
+		<td><%=h data[no].filename %></td>
+	</tr>
+<%- end %>
+</table>
+<hr>
+<%= if page=='all' then '[ALL]' else '<a href="?page=all">[ALL]</a>' end %> <% 1.upto(pageCount) do |p| %> <%= if p==page then "[#{p}]" else "<a href=\"?page=#{p}\">[#{p}]</a>" end %> <% end %> 
+<hr>
+<% if $SHOW_FILE_COUNT || $SHOW_FILE_SIZE then %>
+<div style="float: right;">
+	<% if $SHOW_FILE_COUNT %>
+		Files:<%= data.size %>
+	<% end %>
+	
+	<% if $SHOW_FILE_SIZE %>
+		<% fssum=0; data.each{|t| fssum+=t.size } %>
+		Used:<%= fileSizeToString(fssum) %>
+	<% end %>
+</div>
+<% end %>
+<div style="float:left ;">
+	<form action="remove.cgi" method="post">
+		ID<input type="id" size="6" name="id" value="0"> 
+		Pass<input type="password" size="6" name="password">
+		<input type="submit" value="消去">
+	</form>
+	<% if $SHOW_ADMIN_LINK then %>
+	<a href="admin.cgi" style="font-size: x-small;">管理画面</a>
+	<% end %>
+</div>
+<div></body>
+</html>

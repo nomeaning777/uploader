@@ -1,0 +1,39 @@
+@charset "utf-8";
+H1 { 
+	text-align: center; 
+	
+}
+H2 { color: blue; }
+TR.title{
+	background-color: #00003F;
+	font-weight: bold;
+	color: white;
+}
+TR.odd{
+	background-color: #E1E1FF;
+	color: black;
+}
+TR.even{
+	background-color: #F6F6FF;
+	color: black;
+}
+span.key{
+	color: red;
+}
+BODY{
+	/*background-color: #eeffee;*/
+}
+div.message{
+	padding-bottom: 8px;
+}
+#main{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	width: 836px;
+}
+#upload{
+	padding: 10px;
+	border: thin solid #7f7fFf;
+	line-height: 1.25em;
+}

@@ -1,0 +1,49 @@
+<%# coding: UTF-8 %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="style.css" type="text/css" charset="UTF-8">
+	<title><%=h filedata.id.to_s+'.'+filedata.ext %>のダウンロード</title>
+</head>
+<body><div id="main">
+	<p>音楽用アップローダーから次のファイルをダウンロードします．DLパスワードを入力してください</p>
+	<div>
+	<table border="1" width="836px">
+	<tr class="title">
+		<th width="32px">DL</th>
+		<th width="64px">名前</th>
+		<th width="412px">コメント</th>
+		<th width="96px">容量</th>
+		<th width="164px">日時</th>
+		<th width="164px">ファイル名</th>
+	</tr>
+	<tr class="odd">
+		<td><%=h filedata.dl_count %></td>
+		<td><a href="file.cgi?id=<%=h filedata.id %>"><%=h filedata.id.to_s+'.'+filedata.ext %></a></td>
+		<td><%= if filedata.dl_pass != "" then '<span class="key">[Key]</span>' else "" end %><%=h filedata.comment %></td>
+		<td><%=h fileSizeToString(filedata.size) %></td>
+		<td><%=h filedata.date.strftime("%Y/%m/%d %H:%M:%S") %></td>
+		<td><%=h filedata.filename %></td>
+	</tr>
+	</table>
+	</div>
+	<br>
+	<%= if errors["mismatch"] then
+			'<div style="color:red;">パスワードが違います </div>'
+		end
+	%>
+	<div>
+	<form action="file.cgi" method="get" enctype="UTF-8" accept-charset="UTF-8">
+		DLパスワード:<input type="password" name="pass" size="8">
+		<input type="hidden" name="id" value="<%=filedata.id.to_s %>" >
+		<input type="submit" value="確認">
+	</form>	
+	</div>
+	<br>
+	<hr>
+	<p>
+		<a href="#" onClick="history.back(); return false;">戻る</a>
+	</p>
+</div></body>
+</html>

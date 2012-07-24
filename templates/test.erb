@@ -1,0 +1,46 @@
+<%# coding: UTF-8 %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="style.css" type="text/css" charset="UTF-8">
+	<title><%= filedata.id %>のダウンロード</title>
+</head>
+<body><div id="main">
+	<p>音楽用アップローダーから次のファイルをダウンロードします．続行するにはダウンロードをクリックしてください．</p>
+	<div>
+	<table border="1" width="836px">
+		<tr class="title">
+			<th width="32px">DL</th>
+			<th width="64px">ID</th>
+			<th width="412px">コメント</th>
+			<th width="96px">容量</th>
+			<th width="164px">日時</th>
+			<th width="164px">ファイル名</th>
+		</tr>
+		<tr class="even">
+			<td><%= filedata.DLcount %></td>
+			<td><%= filedata.id %></a></td>
+			<td><%= filedata.comment %></td>
+			<td><%= sprintf("%.2fMB",filedata.size.to_f/1024/1024) %></td>
+			<td><%= filedata.date.strftime("%Y/%m/%d %H:%M:%S") %></td>
+			<td><%= filedata.filename %></td>
+		</tr>
+	</table>
+	</div>
+	<br>
+	<div><a href="<%= 'http://k8n.dip.jp/osekihan/music/src/'+filedata.id %>">ダウンロード</a></div>
+	<br>
+<% if File.extname(filedata.id)=='.mp3' then %>
+	<object type="application/x-shockwave-flash" data="http://k8n.dip.jp/static/swf/player_mp3_maxi.swf" width="400" height="20">
+    	<param name="movie" value="http://k8n.dip.jp/static/swf/player_mp3_maxi.swf" />
+    	<param name="bgcolor" value="#ffffff" />
+    	<param name="FlashVars" value="mp3=<%=CGI.escape 'http://k8n.dip.jp/osekihan/music/src/'+filedata.id %>&amp;width=400&amp;loop=1&amp;autoload=1&amp;volume=100&amp;showstop=1&amp;showinfo=0&amp;showvolume=1&amp;showloading=always&amp;loadingcolor=989898" />
+	</object>
+<% end %>
+	<hr>
+	<p>
+		<a href="#" onClick="history.back(); return false;">戻る</a>
+	</p>
+</div></body>
+</html>
